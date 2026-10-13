@@ -1,0 +1,6 @@
+{
+  "name": "Campus News Portal",
+  "description": "A comprehensive digital campus news and media platform for students, faculty, and administration with real-time news, events, announcements, interviews, role-based workflows, and AI editorial tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
