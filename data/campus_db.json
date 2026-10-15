@@ -255,6 +255,86 @@
       "isActive": true,
       "createdAt": "2026-10-13T05:41:00.861Z",
       "updatedAt": "2026-10-13T05:41:00.861Z"
+    },
+    {
+      "id": "6ad07cf8c9c2758ba19c0feb",
+      "name": "sachin",
+      "email": "sachin123@gmail.com",
+      "passwordHash": "$2b$10$Grj8vxAYYLM/jdTY.Ebq8eFhLKxACEUMaZr49sJOXeM5JITWCrqhW",
+      "role": "student",
+      "studentFacultyId": "4556667",
+      "department": "Computer Applications",
+      "course": "BCA (Bachelor of Computer Applications)",
+      "year": "1st Year",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80",
+      "bio": "",
+      "isActive": true,
+      "createdAt": "2026-10-15T07:12:56.198Z",
+      "updatedAt": "2026-10-15T07:12:56.198Z"
+    },
+    {
+      "id": "usr_admin_campusnews_edu",
+      "name": "Chief Administrator",
+      "email": "admin@campusnews.edu",
+      "passwordHash": "$2b$10$5q0ZDOYunxkY8hFiAtee3uRtES/QCLq1Nsr3cGr06ldQ3FNBTpkeW",
+      "role": "admin",
+      "studentFacultyId": "ADM-2026-001",
+      "department": "College Administration & IT",
+      "course": "Chief Editor & Administrator",
+      "year": "Staff / Admin",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+      "bio": "Primary Administrator of Campus News Portal.",
+      "isActive": true,
+      "createdAt": "2026-10-15T07:48:55.824Z",
+      "updatedAt": "2026-10-15T07:48:55.824Z"
+    },
+    {
+      "id": "usr_amangogna369_gmail_com",
+      "name": "Aman",
+      "email": "amangogna369@gmail.com",
+      "passwordHash": "$2b$10$5q0ZDOYunxkY8hFiAtee3uf3IXADwgHP/DddT8t1RPunPylJlp56a",
+      "role": "admin",
+      "studentFacultyId": "ADM-AMAN-101",
+      "department": "Computer Applications",
+      "course": "Chief Administrator",
+      "year": "Staff / Admin",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80",
+      "bio": "Portal Administrator & Faculty Lead.",
+      "isActive": true,
+      "createdAt": "2026-10-15T07:48:55.825Z",
+      "updatedAt": "2026-10-15T07:48:55.825Z"
+    },
+    {
+      "id": "usr_aman_admin_campusnews_edu",
+      "name": "Aman Verma",
+      "email": "aman.admin@campusnews.edu",
+      "passwordHash": "$2b$10$5q0ZDOYunxkY8hFiAtee3uRtES/QCLq1Nsr3cGr06ldQ3FNBTpkeW",
+      "role": "admin",
+      "studentFacultyId": "ADM-2026-002",
+      "department": "College Administration",
+      "course": "System Administrator",
+      "year": "Staff / Admin",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+      "bio": "College Systems Administrator.",
+      "isActive": true,
+      "createdAt": "2026-10-15T07:48:55.825Z",
+      "updatedAt": "2026-10-15T07:48:55.825Z"
+    },
+    {
+      "id": "6ad0899e4e60c40ee53bbed9",
+      "name": "Pooja Sharma",
+      "email": "pooja.student@campusnews.edu",
+      "passwordHash": "$2b$10$ic3uSkZYQtqrfll/2FEaTu5Bafngy..iq1SXUDHqaZsB/yRL8nZZW",
+      "role": "student",
+      "studentFacultyId": "STU-BCA-2026-777",
+      "department": "Computer Applications",
+      "course": "BCA",
+      "year": "1st Year",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80",
+      "bio": "",
+      "isActive": true,
+      "createdAt": "2026-10-15T08:06:54.149Z",
+      "updatedAt": "2026-10-15T08:06:54.149Z"
     }
   ],
   "categories": [
@@ -401,7 +481,7 @@
       "status": "published",
       "isFeatured": true,
       "isBreaking": true,
-      "views": 2,
+      "views": 4,
       "likesCount": 0,
       "readTime": "1 min read",
       "publishedAt": "2026-10-13T04:26:04.703Z",
@@ -1636,6 +1716,24 @@
   ],
   "notifications": [
     {
+      "id": "notif_1792051614152_56sjv",
+      "userId": "6ad0899e4e60c40ee53bbed9",
+      "title": "Welcome to Campus News!",
+      "message": "Your account has been registered in the database. You can now explore campus news, bookmark stories, and submit articles.",
+      "type": "system",
+      "isRead": false,
+      "createdAt": "2026-10-15T08:06:54.152Z"
+    },
+    {
+      "id": "notif_1792048376202_mxqyi",
+      "userId": "6ad07cf8c9c2758ba19c0feb",
+      "title": "Welcome to Campus News!",
+      "message": "Your account has been registered in the database. You can now explore campus news, bookmark stories, and submit articles.",
+      "type": "system",
+      "isRead": false,
+      "createdAt": "2026-10-15T07:12:56.202Z"
+    },
+    {
       "id": "notif_1791870060867_vqxms",
       "userId": "6acdc46c6e59dceafc2ab37d",
       "title": "Welcome to Campus News!",
@@ -1766,6 +1864,66 @@
     }
   ],
   "activityLogs": [
+    {
+      "id": "act_1792051614152_c1b12",
+      "action": "USER_REGISTERED",
+      "userId": "6ad0899e4e60c40ee53bbed9",
+      "userName": "Pooja Sharma",
+      "details": "New user registered with role student",
+      "entityType": "auth",
+      "entityId": "6ad0899e4e60c40ee53bbed9",
+      "createdAt": "2026-10-15T08:06:54.152Z"
+    },
+    {
+      "id": "act_1792051605600_cnuuh",
+      "action": "USER_LOGIN",
+      "userId": "6ad085674e60c40ee53bbed5",
+      "userName": "Aman",
+      "details": "User logged into portal as admin",
+      "entityType": "auth",
+      "entityId": "6ad085674e60c40ee53bbed5",
+      "createdAt": "2026-10-15T08:06:45.600Z"
+    },
+    {
+      "id": "act_1792050500033_0cuwx",
+      "action": "USER_LOGIN",
+      "userId": "6ad08539aea96d90da3f20d5",
+      "userName": "Aman",
+      "details": "User logged into portal as admin",
+      "entityType": "auth",
+      "entityId": "6ad08539aea96d90da3f20d5",
+      "createdAt": "2026-10-15T07:48:20.033Z"
+    },
+    {
+      "id": "act_1792049284872_57wuh",
+      "action": "USER_LOGIN",
+      "userId": "6ad07bcbc9c2758ba19c0fe7",
+      "userName": "Aman",
+      "details": "User logged into portal as admin",
+      "entityType": "auth",
+      "entityId": "6ad07bcbc9c2758ba19c0fe7",
+      "createdAt": "2026-10-15T07:28:04.872Z"
+    },
+    {
+      "id": "act_1792048376202_kr18r",
+      "action": "USER_REGISTERED",
+      "userId": "6ad07cf8c9c2758ba19c0feb",
+      "userName": "sachin",
+      "details": "New user registered with role student",
+      "entityType": "auth",
+      "entityId": "6ad07cf8c9c2758ba19c0feb",
+      "createdAt": "2026-10-15T07:12:56.202Z"
+    },
+    {
+      "id": "act_1792048289951_9qrzd",
+      "action": "USER_LOGIN",
+      "userId": "6ad07bcbc9c2758ba19c0fe7",
+      "userName": "Aman",
+      "details": "User logged into portal as admin",
+      "entityType": "auth",
+      "entityId": "6ad07bcbc9c2758ba19c0fe7",
+      "createdAt": "2026-10-15T07:11:29.951Z"
+    },
     {
       "id": "act_1791870060867_4ajxr",
       "action": "USER_REGISTERED",

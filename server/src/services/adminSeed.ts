@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 import { User } from '../models/User.js';
 import { config } from '../config/env.js';
 
@@ -63,61 +64,102 @@ export async function seedAdminAccount(): Promise<void> {
       },
     ];
 
+    // 1. Always seed accounts into db.users (JSON/memory manager)
     for (const acc of adminAccounts) {
-      const existing = await User.findOne({ email: acc.email });
-      if (!existing) {
-        await User.create({
-          ...acc,
-          isActive: true,
-        });
-        console.log(`✅ [MongoDB] Administrator Initialized: ${acc.name} (${acc.email})`);
-      } else if (existing.role !== 'admin') {
-        existing.role = 'admin';
-        await existing.save();
-        console.log(`✅ [MongoDB] Updated existing account ${acc.email} to 'admin' role.`);
+      const idx = db.users.findIndex(u => u.email.toLowerCase() === acc.email.toLowerCase());
+      const record = {
+        id: `usr_${acc.email.replace(/[^a-zA-Z0-9]/g, '_')}`,
+        name: acc.name,
+        email: acc.email,
+        passwordHash: acc.passwordHash,
+        role: acc.role as any,
+        studentFacultyId: acc.studentFacultyId,
+        department: acc.department,
+        course: acc.course,
+        year: acc.year,
+        avatar: acc.avatar,
+        bio: acc.bio,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      if (idx >= 0) {
+        db.users[idx] = { ...db.users[idx], ...record, role: 'admin' };
+      } else {
+        db.users.push(record);
       }
     }
 
-    // 2. Ensure a baseline Faculty account exists
-    const facultyEmail = 'faculty@campusnews.edu';
-    const existingFaculty = await User.findOne({ email: facultyEmail });
-    if (!existingFaculty) {
-      const facultyPasswordHash = await bcrypt.hash('FacultyPass@2026', salt);
-      await User.create({
-        name: 'Dr. Anita Desai',
-        email: facultyEmail,
-        passwordHash: facultyPasswordHash,
-        role: 'faculty',
-        studentFacultyId: 'FAC-2026-012',
-        department: 'Computer Science & Engineering',
-        course: 'Associate Professor',
-        year: 'Faculty',
-        avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
-        bio: 'Associate Professor & Editorial Advisory Board Member for Campus News.',
-        isActive: true,
-      });
-      console.log(`✅ [MongoDB] Baseline Faculty Account Initialized: Dr. Anita Desai (${facultyEmail})`);
-    }
+    // 2. If MongoDB is connected, also seed in Mongoose
+    if (mongoose.connection.readyState === 1) {
+      for (const acc of adminAccounts) {
+        try {
+          const existing = await User.findOne({ email: acc.email });
+          if (!existing) {
+            await User.create({
+              ...acc,
+              isActive: true,
+            });
+            console.log(`✅ [MongoDB] Administrator Initialized: ${acc.name} (${acc.email})`);
+          } else if (existing.role !== 'admin') {
+            existing.role = 'admin';
+            await existing.save();
+            console.log(`✅ [MongoDB] Updated existing account ${acc.email} to 'admin' role.`);
+          }
+        } catch (e: any) {
+          console.warn('MongoDB admin seed notice:', e.message || e);
+        }
+      }
 
-    // 3. Ensure a baseline Student account exists
-    const studentEmail = 'student@campusnews.edu';
-    const existingStudent = await User.findOne({ email: studentEmail });
-    if (!existingStudent) {
-      const studentPasswordHash = await bcrypt.hash('StudentPass@2026', salt);
-      await User.create({
-        name: 'Rohan Verma',
-        email: studentEmail,
-        passwordHash: studentPasswordHash,
-        role: 'student',
-        studentFacultyId: 'BCA-2024-088',
-        department: 'Computer Applications',
-        course: 'BCA 3rd Year',
-        year: '3rd Year',
-        avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80',
-        bio: 'BCA Final Year Student & Student Editorial Contributor.',
-        isActive: true,
-      });
-      console.log(`✅ [MongoDB] Baseline Student Account Initialized: Rohan Verma (${studentEmail})`);
+      // Ensure a baseline Faculty account exists in MongoDB
+      const facultyEmail = 'faculty@campusnews.edu';
+      try {
+        const existingFaculty = await User.findOne({ email: facultyEmail });
+        if (!existingFaculty) {
+          const facultyPasswordHash = await bcrypt.hash('FacultyPass@2026', salt);
+          await User.create({
+            name: 'Dr. Anita Desai',
+            email: facultyEmail,
+            passwordHash: facultyPasswordHash,
+            role: 'faculty',
+            studentFacultyId: 'FAC-2026-012',
+            department: 'Computer Science & Engineering',
+            course: 'Associate Professor',
+            year: 'Faculty',
+            avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+            bio: 'Associate Professor & Editorial Advisory Board Member for Campus News.',
+            isActive: true,
+          });
+          console.log(`✅ [MongoDB] Baseline Faculty Account Initialized: Dr. Anita Desai (${facultyEmail})`);
+        }
+      } catch (e: any) {
+        console.warn('MongoDB faculty seed notice:', e.message || e);
+      }
+
+      // Ensure a baseline Student account exists in MongoDB
+      const studentEmail = 'student@campusnews.edu';
+      try {
+        const existingStudent = await User.findOne({ email: studentEmail });
+        if (!existingStudent) {
+          const studentPasswordHash = await bcrypt.hash('StudentPass@2026', salt);
+          await User.create({
+            name: 'Rohan Verma',
+            email: studentEmail,
+            passwordHash: studentPasswordHash,
+            role: 'student',
+            studentFacultyId: 'BCA-2024-088',
+            department: 'Computer Applications',
+            course: 'BCA 3rd Year',
+            year: '3rd Year',
+            avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80',
+            bio: 'BCA Final Year Student & Student Editorial Contributor.',
+            isActive: true,
+          });
+          console.log(`✅ [MongoDB] Baseline Student Account Initialized: Rohan Verma (${studentEmail})`);
+        }
+      } catch (e: any) {
+        console.warn('MongoDB student seed notice:', e.message || e);
+      }
     }
 
     // 4. Automatically sync all accounts into Supabase public.profiles backend

@@ -43,7 +43,14 @@ export async function connectDB(): Promise<void> {
     console.log(`ℹ️ [MongoDB] Initializing local MongoDB engine for database "${dbName}"...`);
   }
 
-  // Start local MongoDB Memory Server instance
+  // Check if running in a serverless environment (e.g. Vercel) without remote MongoDB Atlas configured
+  const isServerless = process.env.VERCEL === '1' || process.env.NOW_REGION !== undefined;
+  if (isServerless) {
+    console.log(`ℹ️ [Serverless/Vercel] Serverless environment active. Using database manager JSON store and Supabase synchronization.`);
+    return;
+  }
+
+  // Start local MongoDB Memory Server instance for local development
   try {
     memoryServer = await MongoMemoryServer.create();
     const uri = memoryServer.getUri();
@@ -52,8 +59,8 @@ export async function connectDB(): Promise<void> {
     });
     console.log(`✅ [MongoDB] Database active and connected: "${dbName}"`);
   } catch (err: any) {
-    console.error(`❌ [MongoDB] Fatal error initializing MongoDB:`, err.message || err);
-    throw err;
+    console.warn(`⚠️ [MongoDB] Local MongoMemoryServer notice:`, err.message || err);
+    console.log(`Continuing with local database manager and Supabase synchronization.`);
   }
 }
 
