@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
 import { config } from '../config/env.js';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 
-let memoryServer: MongoMemoryServer | null = null;
+let memoryServer: any = null;
 
 /**
  * Connects to MongoDB Atlas if MONGODB_URI is provided.
@@ -44,7 +43,7 @@ export async function connectDB(): Promise<void> {
   }
 
   // Check if running in a serverless environment (e.g. Vercel) without remote MongoDB Atlas configured
-  const isServerless = process.env.VERCEL === '1' || process.env.NOW_REGION !== undefined;
+  const isServerless = process.env.VERCEL === '1' || process.env.NOW_REGION !== undefined || process.env.NODE_ENV === 'production';
   if (isServerless) {
     console.log(`ℹ️ [Serverless/Vercel] Serverless environment active. Using database manager JSON store and Supabase synchronization.`);
     return;
@@ -52,6 +51,7 @@ export async function connectDB(): Promise<void> {
 
   // Start local MongoDB Memory Server instance for local development
   try {
+    const { MongoMemoryServer } = await import('mongodb-memory-server');
     memoryServer = await MongoMemoryServer.create();
     const uri = memoryServer.getUri();
     await mongoose.connect(uri, {

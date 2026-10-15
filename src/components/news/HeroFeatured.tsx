@@ -19,6 +19,9 @@ export const HeroFeatured: React.FC<HeroFeaturedProps> = ({ article }) => {
           src={article.featuredImage}
           alt={article.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80';
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
       </div>
@@ -57,6 +60,9 @@ export const HeroFeatured: React.FC<HeroFeaturedProps> = ({ article }) => {
               src={article.authorAvatar && !article.authorAvatar.includes('unsplash') ? article.authorAvatar : defaultAuthorAvatar}
               alt={article.authorName}
               className="w-10 h-10 rounded-full object-cover ring-2 ring-blue-400"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = defaultAuthorAvatar;
+              }}
             />
             <div>
               <div className="text-xs sm:text-sm font-bold text-white">

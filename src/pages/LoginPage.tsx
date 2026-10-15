@@ -16,7 +16,8 @@ export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = (location.state as any)?.from?.pathname || '/';
+  const rawFrom = (location.state as any)?.from?.pathname;
+  const from = rawFrom && rawFrom !== '/login' ? rawFrom : '/';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,6 +33,7 @@ export const LoginPage: React.FC = () => {
     try {
       await login(email.trim(), password);
       showToast('Signed in successfully!', 'success');
+      // If user came from a specific protected page, go there; otherwise go to home or admin dashboard
       navigate(from, { replace: true });
     } catch (err: any) {
       const msg = err.message || 'Login failed. Please check your credentials or register.';

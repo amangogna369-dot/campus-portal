@@ -203,6 +203,9 @@ export const Header: React.FC = () => {
                     src={user.avatar && !user.avatar.includes('unsplash') ? user.avatar : defaultAvatar}
                     alt={user.name}
                     className="w-9 h-9 rounded-full object-cover ring-2 ring-blue-500/20"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = defaultAvatar;
+                    }}
                   />
                   <div className="hidden lg:block text-left pr-1">
                     <div className="text-xs font-bold text-slate-900 dark:text-white leading-tight">

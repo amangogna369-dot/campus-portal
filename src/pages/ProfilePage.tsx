@@ -88,6 +88,9 @@ export const ProfilePage: React.FC = () => {
           src={user.avatar && !user.avatar.includes('unsplash') ? user.avatar : defaultAvatar}
           alt={user.name}
           className="w-24 h-24 rounded-2xl object-cover ring-4 ring-blue-500/20 shadow-md shrink-0"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = defaultAvatar;
+          }}
         />
 
         <div className="space-y-1.5 flex-1">

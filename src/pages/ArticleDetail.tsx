@@ -175,6 +175,9 @@ export const ArticleDetail: React.FC = () => {
               src={article.authorAvatar && !article.authorAvatar.includes('unsplash') ? article.authorAvatar : defaultAuthorAvatar}
               alt={article.authorName}
               className="w-12 h-12 rounded-full object-cover ring-2 ring-blue-500/20"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = defaultAuthorAvatar;
+              }}
             />
             <div>
               <div className="flex items-center gap-2">
@@ -229,6 +232,9 @@ export const ArticleDetail: React.FC = () => {
           src={article.featuredImage}
           alt={article.title}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80';
+          }}
         />
       </div>
 

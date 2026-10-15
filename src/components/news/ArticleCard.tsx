@@ -70,6 +70,9 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             alt={article.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80';
+            }}
           />
           <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-600 text-white shadow-xs">
             {article.category}
@@ -128,6 +131,9 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           alt={article.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80';
+          }}
         />
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
           <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-600/90 text-white backdrop-blur-xs shadow-xs">
@@ -175,6 +181,9 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               src={article.authorAvatar && !article.authorAvatar.includes('unsplash') ? article.authorAvatar : defaultAuthorAvatar}
               alt={article.authorName}
               className="w-6 h-6 rounded-full object-cover"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = defaultAuthorAvatar;
+              }}
             />
             <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate max-w-[120px]">
               {article.authorName}

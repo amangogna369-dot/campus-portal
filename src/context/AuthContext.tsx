@@ -17,9 +17,16 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const raw = localStorage.getItem('campus_news_user');
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  });
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('campus_news_token'));
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(() => !localStorage.getItem('campus_news_user'));
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -30,12 +37,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       try {
         const res = await api.getMe();
-        setUser(res.data);
+        if (res && res.data) {
+          setUser(res.data);
+          localStorage.setItem('campus_news_user', JSON.stringify(res.data));
+        }
       } catch (err) {
-        console.warn('Session expired or invalid token:', err);
-        localStorage.removeItem('campus_news_token');
-        setToken(null);
-        setUser(null);
+        console.warn('Session verification notice:', err);
+        // Retain existing session if user is present in localStorage
+        const savedUser = localStorage.getItem('campus_news_user');
+        if (savedUser) {
+          try {
+            setUser(JSON.parse(savedUser));
+          } catch {}
+        } else {
+          localStorage.removeItem('campus_news_token');
+          setToken(null);
+          setUser(null);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -48,9 +66,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       const res = await api.login({ email, password });
-      localStorage.setItem('campus_news_token', res.data.token);
-      setToken(res.data.token);
-      setUser(res.data.user);
+      const userData = res.data.user;
+      const tokenData = res.data.token;
+      localStorage.setItem('campus_news_token', tokenData);
+      localStorage.setItem('campus_news_user', JSON.stringify(userData));
+      setToken(tokenData);
+      setUser(userData);
     } finally {
       setIsLoading(false);
     }
@@ -60,9 +81,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       const res = await api.register(userData);
-      localStorage.setItem('campus_news_token', res.data.token);
-      setToken(res.data.token);
-      setUser(res.data.user);
+      const userObj = res.data.user;
+      const tokenData = res.data.token;
+      localStorage.setItem('campus_news_token', tokenData);
+      localStorage.setItem('campus_news_user', JSON.stringify(userObj));
+      setToken(tokenData);
+      setUser(userObj);
     } finally {
       setIsLoading(false);
     }
@@ -70,6 +94,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     localStorage.removeItem('campus_news_token');
+    localStorage.removeItem('campus_news_user');
     setToken(null);
     setUser(null);
   };
